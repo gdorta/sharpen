@@ -2,6 +2,26 @@
 
 ## 2026-11-12
 
+Pages that changed: anthropic-best-practices, anthropic-models, openai-latest-model, openai-models, openai-prompting, openai-prompt-engineering, openai-model-selection, anthropic-prompting-claude-fable-5, anthropic-prompting-claude-fable-5-1, anthropic-prompting-claude-fable-5-2, anthropic-prompting-claude-haiku-5-5, anthropic-prompting-claude-opus-4-8, anthropic-prompting-claude-opus-5, anthropic-prompting-claude-opus-5-5, anthropic-prompting-claude-sonnet-5, anthropic-prompting-claude-sonnet-5-5
+
+- Claude intro: added that a per-message effort change (beta) keeps the prompt cache (prompting-claude-fable-5-2, prompting-claude-opus-5-5, prompting-claude-haiku-5-5).
+- Fable 5.2: added that effort barely changes reply length, so ask for length and tone in the prompt (prompting-claude-fable-5-2).
+- Opus 5.5: added that thinking is always on, and that "Answer directly without deliberating." can reduce thinking further after lowering effort (prompting-claude-opus-5-5).
+- Opus 5.5: added the vendor's pasted-content system prompt note with matching random-ID tags (prompting-claude-opus-5-5).
+- Opus 5.5: added a note to re-test image scaffolding and that a crop tool still helps on the densest images (prompting-claude-opus-5-5).
+- Haiku 5.5: added the fix for reasoning-like text in replies: adaptive thinking and medium effort (prompting-claude-haiku-5-5).
+- OpenAI: split the single family section into one section per model in the current lineup (GPT-6 Astra, GPT-6.1 Sol, GPT-6.1 Terra, GPT-6 Luna), as the models page lists it. Family-wide effort and API notes stay under the vendor heading. The old "Models:" bullet was dropped as redundant (models, latest-model).
+- OpenAI: added per-model starting effort levels and best-fit tasks (model-selection).
+- OpenAI: added that Astra may delegate less than wanted (latest-model).
+- OpenAI: added that GPT-6.1 Sol needs "low" in place of "none" when moving from GPT-6 Sol, and the GPT-5.6 Terra comparison note (latest-model).
+- OpenAI: added that Terra and Luna accept "none", and that Luna supports function calling in Chat Completions only at "none" (latest-model).
+- OpenAI: added the advice to compare models on the same inputs and keep the lightest setting that meets the quality bar (model-selection).
+- No change from best-practices, models overview, prompting, prompt-engineering, prompting-claude-fable-5, prompting-claude-fable-5-1, prompting-claude-opus-4-8, prompting-claude-opus-5 or prompting-claude-sonnet-5 beyond what is listed above. The Claude lineup is unchanged, and the older-model pages cover models outside the current lineup.
+- Left out: the "Using GPT-6" page's instruction to run a Codex command ("$openai-docs migrate this project...") and to download a skill from the Codex repository. These ask the reader to run commands and visit outside links.
+- Left out: links to github.com, claude.com, support.claude.com and anthropic.com in several Anthropic pages. These domains are not allowed in the file.
+
+## 2026-11-12
+
 Pages that changed: anthropic-best-practices, anthropic-models, openai-latest-model, openai-models, openai-prompting, anthropic-prompting-claude-fable-5, anthropic-prompting-claude-fable-5-1, anthropic-prompting-claude-fable-5-2, anthropic-prompting-claude-haiku-5-5, anthropic-prompting-claude-opus-4-8, anthropic-prompting-claude-opus-5, anthropic-prompting-claude-opus-5-5, anthropic-prompting-claude-sonnet-5, anthropic-prompting-claude-sonnet-5-5
 
 - Lineups checked against anthropic-models and openai-models: Claude (Fable 5.2, Opus 5.5, Sonnet 5.5, Haiku 5.5) and OpenAI (GPT-6 Astra, GPT-6.1 Sol, GPT-6.1 Terra, GPT-6 Luna) are unchanged, as are default effort levels. No sections added or removed.

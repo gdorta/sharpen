@@ -24,11 +24,12 @@ Sharpen is written in the open Agent Skills format, which Claude and OpenAI's to
 
 OpenAI's tools install skills as part of a plugin, so this repo is also a plugin.
 
-1. In a terminal, run `codex plugin marketplace add gdorta/sharpen`.
-2. Restart the ChatGPT desktop app, open the Plugins Directory, choose Melange AI, and install Sharpen.
-3. Type `@`, select Sharpen, and add your draft.
+1. In the ChatGPT desktop app, open Plugins, choose Add, and then "Add a marketplace".
+2. Enter `gdorta/sharpen` as the source and add it.
+3. Search the plugins for sharpen and install it.
+4. In Codex, type `$sharpen` and your draft. In ChatGPT, type `@sharpen` and your draft.
 
-I have tested Sharpen in Claude. I have not yet been able to test the ChatGPT and Codex install, so if it does not work for you, please tell me and I will fix it.
+Sharpen has been tested in Claude, in ChatGPT and in Codex. If something does not work for you, please tell me and I will fix it.
 
 ## How to use it
 
@@ -108,6 +109,12 @@ evals/                    the twenty sample drafts and the scoring guide
 scripts/                  check, draft, safety checks, second opinion, test, build
 .github/workflows/        the Monday job, and a job that rebuilds the skill
 ```
+
+## Tell me how it went
+
+If you try Sharpen, I would love to hear about it: what worked, what did not, and what you wish it did.
+
+The easiest way is to [open an issue](https://github.com/gdorta/sharpen/issues/new) here. If you do not use GitHub, you can reach me through [melange.ai](https://melange.ai).
 
 ## About
 

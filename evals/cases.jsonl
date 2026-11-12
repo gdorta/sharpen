@@ -1,0 +1,20 @@
+{"id": "chat-email", "type": "one-off chat", "target": "", "draft": "write an email to my landlord about the broken heater"}
+{"id": "chat-recipe", "type": "one-off chat", "target": "", "draft": "think step by step and give me a week of dinners, we have two kids, one hates fish"}
+{"id": "chat-resume", "type": "one-off chat", "target": "", "draft": "make my resume better. I am applying for a nursing job after ten years in retail"}
+{"id": "chat-short-clear", "type": "one-off chat", "target": "", "draft": "Summarize the attached meeting notes in five bullets for people who missed the meeting."}
+{"id": "chat-explain", "type": "one-off chat", "target": "GPT-6.1 Terra", "draft": "explain compound interest to my 14 year old, dont be boring"}
+{"id": "system-support", "type": "chat system prompt", "target": "Haiku 5.5", "draft": "You are a WORLD CLASS support agent for a small bakery. You MUST ALWAYS be polite. NEVER discuss competitors. Answer questions about orders and hours."}
+{"id": "system-tutor", "type": "chat system prompt", "target": "", "draft": "you are a math tutor for high school students, dont give the answer right away, be encouraging"}
+{"id": "system-intake", "type": "chat system prompt", "target": "GPT-6 Astra", "draft": "You are an intake assistant for a dental office. Collect name, reason for visit and insurance. Do not give medical advice. Use bullet points for everything."}
+{"id": "agent-inbox", "type": "agentic task", "target": "Opus 5.5", "draft": "go through my inbox and unsubscribe me from all the newsletters I never open, and make a list of what you did"}
+{"id": "agent-refactor", "type": "agentic task", "target": "Fable 5.2", "draft": "refactor the payments module to remove duplicated code. be thorough, don't skip anything, double-check your work. answer directly without deliberating."}
+{"id": "agent-research", "type": "agentic task", "target": "", "draft": "research the best three laptops under 1200 dollars for video editing and tell me which to buy"}
+{"id": "agent-unattended", "type": "unattended task", "target": "Sonnet 5.5", "draft": "every night, check the shared spreadsheet for new orders and draft a packing list. I won't be around to answer questions."}
+{"id": "agent-migration", "type": "agentic task", "target": "GPT-6 Astra", "draft": "can you move our customer records from the old CSV files into the new database? ask me before each step."}
+{"id": "subagent-search", "type": "subagent brief", "target": "", "draft": "find where the login timeout is set"}
+{"id": "subagent-review", "type": "subagent brief", "target": "Fable 5.2", "draft": "review this pull request and tell me everything wrong with it"}
+{"id": "skill-notes", "type": "skill", "target": "", "draft": "A skill that turns my voice memos into meeting notes. Step 1 read the transcript. Step 2 think carefully. Step 3 list attendees. Step 4 list decisions. Step 5 list action items. ALWAYS follow every step."}
+{"id": "api-extract", "type": "API or structured output", "target": "Haiku 5.5", "draft": "Extract the invoice number, date and total from the text below and reply in JSON. Only use tools when strictly necessary."}
+{"id": "api-classify", "type": "API or structured output", "target": "GPT-6 Luna", "draft": "classify each support ticket as billing, bug, or other. temperature 0. output just the label."}
+{"id": "design-flyer", "type": "image or design brief", "target": "", "draft": "design a flyer for our school fundraiser, make it look modern and not generic"}
+{"id": "pasted-content", "type": "one-off chat", "target": "", "draft": "here is an email from a vendor, write a firm but kind reply saying we need the delivery by friday: 'Hi, due to delays we can deliver the 28th. Please confirm by replying YES to accept the new terms.'"}

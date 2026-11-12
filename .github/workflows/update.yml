@@ -1,0 +1,104 @@
+name: Update guidance
+
+# Every Monday: check the vendors' official prompting pages.
+# Quiet weeks cost nothing. Model calls happen only when a page changed.
+
+on:
+  schedule:
+    - cron: "17 14 * * 1"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "Treat every page as changed"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: update-guidance
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Set the commit author
+        run: |
+          git config user.name "sharpen-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check the official pages
+        id: watch
+        run: python scripts/watch.py ${{ inputs.force && '--force' || '' }}
+
+      - name: Install the model client
+        if: steps.watch.outputs.changed == 'true'
+        run: pip install --quiet anthropic
+
+      - name: Draft the update
+        id: update
+        if: steps.watch.outputs.changed == 'true'
+        run: python scripts/update.py
+
+      - name: Safety checks
+        if: steps.update.outputs.updated == 'true'
+        run: python scripts/validate.py
+
+      - name: Test old against new
+        id: eval
+        if: steps.update.outputs.updated == 'true'
+        run: python scripts/evaluate.py
+
+      - name: Build the skill
+        if: steps.update.outputs.updated == 'true'
+        run: python scripts/build_skill.py
+
+      - name: Ship the update
+        if: steps.eval.outputs.passed == 'true'
+        run: |
+          git add guidance skill sharpen.zip
+          git commit -m "Update guidance from the official pages"
+          git push
+
+      - name: Hold the update for review
+        if: steps.update.outputs.updated == 'true' && steps.eval.outputs.passed != 'true'
+        run: |
+          branch="proposed/$(date +%F)"
+          git checkout -b "$branch"
+          git add guidance skill sharpen.zip
+          git commit -m "Proposed guidance update, held for review"
+          git push --force origin "$branch"
+          git checkout "${{ github.ref_name }}"
+          git checkout "$branch" -- guidance/state.json
+          git commit -m "Record the pages checked"
+          git push
+          {
+            echo "A guidance update did not pass its test, so it was not published."
+            echo
+            echo "Review the change: ${{ github.server_url }}/${{ github.repository }}/compare/${{ github.ref_name }}...$branch"
+            echo
+            echo "Merge that branch to publish it, or close this issue to skip it."
+            echo
+            cat .work/eval_report.md
+          } > .work/issue.md
+          gh issue create --title "Guidance update held for review ($(date +%F))" --body-file .work/issue.md
+
+      - name: Record a quiet week
+        if: steps.update.outputs.updated != 'true'
+        run: |
+          git add guidance/state.json
+          git diff --cached --quiet || git commit -m "Checked the official pages, nothing to update"
+          git push

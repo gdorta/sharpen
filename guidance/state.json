@@ -74,10 +74,22 @@
       "url": "https://developers.openai.com/api/docs/guides/latest-model.md",
       "vendor": "openai"
     },
+    "openai-model-selection": {
+      "last_changed": "2026-11-12",
+      "sha256": "3a2130b8d23ef1c59295078b090bcc3dd19c56578a5ddb8232830a65a4c74c5a",
+      "url": "https://developers.openai.com/api/docs/guides/model-selection.md",
+      "vendor": "openai"
+    },
     "openai-models": {
       "last_changed": "2026-11-12",
       "sha256": "6a63c1fc8dcf180bb2f22baf55a7f5de581930a2d68422fcdb8d03e5760b2898",
       "url": "https://developers.openai.com/api/docs/models.md",
+      "vendor": "openai"
+    },
+    "openai-prompt-engineering": {
+      "last_changed": "2026-11-12",
+      "sha256": "f9c200d7a45e58b76ee6de89e2613a545520d65f1801d1b5558a32001b6b8c10",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering.md",
       "vendor": "openai"
     },
     "openai-prompting": {

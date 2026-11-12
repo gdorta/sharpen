@@ -11,8 +11,8 @@ neither lab grades its own work. With only one lab's key present, that lab
 does both jobs.
 
 The update passes when the new guidance does no harm:
-  - overall, and for each lab's half, its average score is within 0.3 of the
-    old one, or higher, and
+  - overall, its average score is within 0.3 of the old one, or higher,
+  - for each lab's half, it is within 0.6, and
   - it loses badly (3 points or more) on at most 2 drafts.
 
 This test catches an update that makes rewrites worse. It does not check
@@ -43,6 +43,7 @@ MODELS = {
                "judge": os.environ.get("SHARPEN_JUDGE_MODEL_OPENAI", "gpt-6-astra")},
 }
 MEAN_SLACK = 0.3
+LAB_SLACK = 0.6  # each lab's half is only ten drafts, so its average moves more by chance
 BAD_LOSS = 3
 MAX_BAD_LOSSES = 2
 
@@ -113,7 +114,7 @@ def main():
     for lab in labs:
         rows = [r for r in results if r["lab"] == lab]
         lab_old, lab_new = means(rows)
-        if lab_new < lab_old - MEAN_SLACK:
+        if lab_new < lab_old - LAB_SLACK:
             passed = False
         lines.append(f"Rewritten by {MODELS[lab]['writer']} ({len(rows)} drafts): "
                      f"current {lab_old:.2f}, proposed {lab_new:.2f}")

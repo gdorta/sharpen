@@ -1,5 +1,7 @@
 # Sharpen
 
+![Sharpen: scattered ideas go in, and a clear prompt comes out](assets/sharpen.png)
+
 Sharpen turns a rough prompt into a clear one, written for the Claude or OpenAI model it will run on.
 
 I built it because most of us ask AI for things the way we think, quickly and only half formed. The models are very good now, but they still do their best work when the request is clear. Sharpen does that part for you. You write what you want in your own words, and it gives you back a stronger prompt with a short note on what it changed and why.

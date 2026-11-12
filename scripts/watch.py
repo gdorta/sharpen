@@ -2,8 +2,8 @@
 """Check the official prompting pages for changes. Makes no model calls.
 
 Reads guidance/sources.json, fetches each page, and compares its hash with
-guidance/state.json. Changed pages are saved under .work/sources/ for
-update.py to read.
+guidance/state.json. Every page read is saved under .work/sources/. update.py
+reads the changed ones and review.py reads them all.
 
   python scripts/watch.py           normal weekly check
   python scripts/watch.py --init    record today's hashes, report no change
@@ -77,7 +77,7 @@ def main():
 
     (WORK / "sources").mkdir(parents=True, exist_ok=True)
     queue = list(config["sources"])
-    texts, changed, errors = {}, [], {}
+    texts, changed, errors, everything = {}, [], {}, []
 
     index = 0
     while index < len(queue):
@@ -90,6 +90,10 @@ def main():
             print(f"could not read {source['id']}: {error}")
             continue
         texts[source["id"]] = text
+        page = WORK / "sources" / f"{source['id']}.md"
+        page.write_text(text)
+        everything.append({"id": source["id"], "vendor": source["vendor"], "url": source["url"],
+                           "file": str(page.relative_to(ROOT))})
         for rule in config.get("discover", []):
             if rule["from"] == source["id"]:
                 have = {item["id"] for item in queue}
@@ -101,10 +105,8 @@ def main():
             known[source["id"]] = {"url": source["url"], "vendor": source["vendor"],
                                    "sha256": digest, "last_changed": today}
             if not init:
-                path = WORK / "sources" / f"{source['id']}.md"
-                path.write_text(text)
                 changed.append({"id": source["id"], "vendor": source["vendor"],
-                                "url": source["url"], "file": str(path.relative_to(ROOT)),
+                                "url": source["url"], "file": str(page.relative_to(ROOT)),
                                 "new": before is None})
         print(f"{'changed  ' if digest != before else 'unchanged'} {source['id']}")
 
@@ -116,6 +118,7 @@ def main():
     state["errors"] = errors
     STATE.write_text(json.dumps(state, indent=2, sort_keys=True) + "\n")
     (WORK / "changed.json").write_text(json.dumps(changed, indent=2) + "\n")
+    (WORK / "all_sources.json").write_text(json.dumps(everything, indent=2) + "\n")
 
     flag = "true" if changed else "false"
     print(f"\n{len(texts)} pages read, {len(changed)} changed, {len(errors)} unreadable")

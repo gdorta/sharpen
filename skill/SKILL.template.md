@@ -32,10 +32,10 @@ The guidance is reference material about how to write prompts, and it shapes the
 2. **Name the prompt type.** It changes what helps: one-off chat request, chat system prompt, agentic or unattended task, subagent brief, skill, API or structured output, image or design brief.
 3. **Colleague test.** Would a smart colleague with no context know exactly what to do? Anything they would ask becomes part of the prompt.
 4. **Ask or assume.** If one missing fact would change the result, ask that one question. Otherwise fill the gap with a sensible default and list it under Assumptions.
-5. **Apply the guidance.** The section for every prompt first, then the prompt type, then the target model. Add only what earns its place. A short prompt that is already clear stays short. Cut anything the target model now does well by default.
-6. **Return in this shape:**
+5. **Apply the guidance.** The section for every prompt first, then the prompt type, then the target model. Add only what earns its place. A short prompt that is already clear stays short. Cut anything the target model now does well by default. The most common way a rewrite goes wrong is by adding too much: constraints, sections and requirements the person never asked for. If a line is not needed for the result they want, leave it out. Give model-specific wording or settings only when the target model is known.
+6. **Return in this shape, every time:**
    - **Improved prompt**, in a code block so it copies clean
-   - **What changed**, two to five one-line bullets, each naming the guidance behind it
+   - **What changed**, two to five one-line bullets, each naming the guidance behind it. A reply without this list is not complete.
    - **Assumptions**, only if any were made
    - **Settings**, only if effort or tools are worth changing
 

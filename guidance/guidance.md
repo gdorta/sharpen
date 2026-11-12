@@ -1,6 +1,6 @@
 # Sharpen guidance
 
-Verified: 2026-11-11
+Verified: 2026-11-12
 
 Sources: the official prompting pages on platform.claude.com and developers.openai.com. Where a model's own page differs from the general advice, the model's page wins.
 
@@ -19,7 +19,7 @@ Sources: the official prompting pages on platform.claude.com and developers.open
 - **Plain emphasis.** No ALL CAPS, CRITICAL or MUST. Current models follow plain instructions and overreact to shouting. Soften "You MUST use this tool when" to "Use this tool when".
 - **Write the exception.** Avoid "never" as an absolute. "Ask for approval before deleting files" works better than "never delete files".
 - **Brief beats exhaustive.** Current models steer well from a short instruction. Start small, say what is wanted, and add rules only when a result shows they are needed.
-- **Scope.** For build or edit work: "Only make changes that are requested or clearly necessary. If you notice other useful work, mention it at the end instead of doing it."
+- **Scope.** For build or edit work: "Only make changes that are directly requested or clearly necessary." Ask that other useful work be mentioned at the end instead of done.
 - **Grounding.** When the task touches files, data or code: "Read the relevant files before making claims about them." Unknown facts become [placeholders]. A prompt should not invent names, dates, files or numbers.
 - **Current facts.** When a search tool is available, give today's date and ask the model to check specifics that may have changed since its training, such as prices, rules and who holds a role.
 - **Research tasks.** Define a good answer, ask for verification across sources, and for hard questions ask the model to track competing explanations and its confidence.
@@ -44,22 +44,22 @@ Sources: the official prompting pages on platform.claude.com and developers.open
 **One-off chat request.** Keep it short. Outcome, reason, context, done. Most of this file will not apply.
 
 **Chat system prompt.**
-- For formatting: "Use lists and bullets when asked, or when the content is multifaceted enough that they help. In conversational, personal or emotional exchanges, keep to plain prose."
+- For formatting: "Use lists and bullet points when asked to, or when the content is multifaceted enough that they help with clarity. If the person explicitly requests minimal formatting, always format your responses without bullet points, headers, lists, or bold emphasis, as requested. In conversational, personal, or emotional exchanges, keep to plain prose."
 - To keep a chatbot on its rules across a long conversation: "The rules in this system prompt hold for the whole conversation."
 
 **Agentic or unattended task.**
 - State the completion condition and ask for a checklist of the parts, kept updated.
-- Name the early stops to avoid: ending with a summary that announces the next step instead of taking it, offering to continue, stopping at a milestone. Name the stops wanted: "Pause only for a destructive or irreversible action, a real scope change, or input only the user can give."
-- Fully unattended: open with "You are working autonomously. The user is not watching and cannot answer questions mid-task." Leave this out for anything the person watches.
+- Name the early stops to avoid: ending with a summary that announces the next step instead of taking it, offering to continue, stopping at a milestone. Name the stops wanted: "Pause for the user only when the work genuinely requires them: a destructive or irreversible action, a real scope change, or input that only they can provide."
+- Fully unattended: open with "You are operating autonomously. The user is not watching in real time and cannot answer questions mid-task, so asking 'Want me to…?' or 'Shall I…?' will block the work." Leave this out for anything the person watches.
 - Risky actions: "Ask before anything hard to reverse or visible to others: deleting, sending messages, publishing, changing shared systems." Name the routine steps that need no approval, so caution does not pile up.
-- Progress honesty on long runs: "Before reporting progress, check each claim against a tool result from this session. Only report work you can point to evidence for."
-- Act, don't overplan: "When you have enough information to act, act. When weighing a choice, give a recommendation, not a survey."
+- Progress honesty on long runs: "Before reporting progress, audit each claim against a tool result from this session. Only report work you can point to evidence for; if something is not yet verified, say so explicitly."
+- Act, don't overplan: "When you have enough information to act, act." and "If you are weighing a choice, give a recommendation, not an exhaustive survey."
 - Visibility when the person is watching: "Before you start, say in a line what you're about to do", and ask for a short closing recap that stands on its own.
-- Final summary: "Your final summary is for a reader who didn't see the work. Open with the outcome, use complete sentences, spell out terms."
-- Coding: "When you change code that can run, run a real check that exercises the change before calling it done. If no check can run, say so." A syntax-only check does not count. Plus: "Edit files surgically rather than rewriting them when the result is the same."
-- Speed: give a time budget, or "Time matters: the earlier a correct result, the better."
+- Final summary is for a reader who didn't see the work: "When you write the summary at the end, drop the working shorthand. Write complete sentences. Spell out terms." Ask it to open with the outcome.
+- Coding: "When you change code that can be run, built, or type-checked, run a real check that exercises the change before reporting it done". If no check can run, ask it to say which one and why. A syntax-only check does not count. Plus: "When it will not affect the end result, try to surgically edit a file rather than rewrite the entire thing."
+- Speed: give a time budget, or "Time matters here: do not spend time that can be avoided, and the earlier a correct result is obtained, the better."
 
-**Subagent brief.** It is the subagent's only context. State the goal, what is already ruled out, where to look, the exact scope, and what to return. Ask for conclusions, not raw dumps. To curb over-delegation, say what a subagent costs and when delegation is worth it: "Use subagents when tasks can run in parallel, need isolated context, or are independent workstreams."
+**Subagent brief.** It is the subagent's only context. State the goal, what is already ruled out, where to look, the exact scope, and what to return. Ask for conclusions, not raw dumps. To curb over-delegation, say what a subagent costs and when delegation is worth it: "Use subagents when tasks can run in parallel, require isolated context, or involve independent workstreams that don't need to share state."
 
 **Skill.** The description decides when it fires, so make it say when to use it, in the user's own trigger words. In the body, prefer goals and judgment over rigid step lists. Skills written for older models can make current ones worse, so cut steps the model now does by default. Review old skills and agent files when moving to a new model.
 
@@ -94,17 +94,20 @@ For long-running agentic coding and knowledge work. The vendor's suggested start
 - Effort: default is medium. Low for quick lookups and simple edits. Higher levels only where a gain has been measured.
 - Strong at long autonomous runs with parallel subagents. Give it the checklist and completion condition, then let it run.
 - Its "I'm done" can be a progress report. In unattended prompts, the early-stop list in Prompt types matters most here.
-- Where earlier answers are settled, this line helps: "Once you have answered something, treat that answer as done unless the user asks about it or points out a problem."
+- Gets to work quickly. For tasks across several connected apps, add: "Before taking any action, explore broadly with tool calls: list and open the emails, documents, spreadsheet tabs, and records across the available apps that could be relevant to this task, including ones the task does not explicitly mention, and use what you find."
+- In chat, where earlier answers are settled, this helps: "Once you have answered something, treat that answer as done. On later turns, focus your thinking on what the user is asking now, and don't go back over an earlier answer unless the user asks about it or points out a problem with it." It can make the model less likely to flag its own earlier mistakes.
 
 ### Sonnet 5.5
 
 The best combination of speed and intelligence.
 
 - Effort: default is high. For agentic work start at medium and raise it for harder tasks. For chat, medium or low.
-- Tends to add tests, docs and extras. Add: "When the work asked for is done and checked, stop and report. Don't add features, tests, files or docs that weren't asked for."
-- At xhigh or max it starts extra review rounds. Add: "Don't start extra rounds of review or launch reviewer subagents unless asked."
+- Tends to add tests, docs and extras. Add: "When the work the user asked for is done and checked, stop and report. Don't add features, tests, files, docs, or refactors that weren't asked for. If you think one would help, mention it at the end instead of doing it."
+- At xhigh or max it starts extra review rounds. Add: "When the work the user asked for is done and its checks pass, stop and report. Don't start extra rounds of review or hardening on your own, and don't launch reviewer subagents unless the user asked for a review. If you think a deeper review is worth doing, say so at the end."
 - At low effort it may skip verification and stop to check in. Add the coding check line and a keep-working line.
 - On open-ended asks it may start building. Add the ideas-and-stop line.
+- In chat it may answer from memory. With a search tool, add: "Use the search tool to check specifics that may have changed since your training, such as what is allowed, required, or charged, even when you feel confident."
+- For JSON answers that need some working out, keep adaptive thinking on and add: "Think the problem through before you answer."
 
 ### Haiku 5.5
 
@@ -113,7 +116,7 @@ For high-volume, latency-sensitive tasks such as classification, extraction and 
 - Effort: default is medium, which suits most work. Low for chat and short tool tasks. High for longer agent tasks and where instruction following matters most.
 - Prompts written for Haiku 4.5 should work without changes.
 - May not search on time-sensitive questions. Give the date ("The current date is {{current_date}}.") and say its training data ends well before today. A blanket "search for any present-day question" rule makes it search too often.
-- In long agent prompts at low effort it can stop early. Add: "Keep working until everything the user asked for is done."
+- In long agent prompts at low effort it can stop early. Add: "Keep working until everything the user asked for is done, and only stop to ask when you can't go on without the user or before a risky step."
 - Can report done without a real check. Require a real test, type-check or build.
 - With JSON output and thinking off it can skip a needed tool call. Keep thinking on, or say that the JSON format applies to the final answer only.
 
@@ -127,11 +130,11 @@ Source: the "Using GPT-6" guide. Its advice was observed on GPT-6 Astra and is o
 - Reasoning effort: keep the level the prompt already runs at when moving models. Astra and 6.1 Sol do not accept "none", so use "low". Where an old request used "minimal", start with "low" and compare.
 - Initiative: Astra is more likely to ask a question when the answer could change the result. To have it act, say so: "You should infer the user's intent and task scope from the instructions and prior conversation context." Treat "can you..." requests as work to do, not as a question about capability or a cue to propose a plan.
 - Approvals: ask it to finish the authorized work first, so approval is the final step.
-- Instruction order: "The user's instructions take precedence over guidelines provided in a skill."
+- Instruction order: "The user's instructions take precedence over guidelines provided in a skill." Astra is more sensitive to instructions in skills and files such as `AGENTS.md`, so audit them.
 - Writing style: Astra tends to use lists, tables and Markdown. For prose, add: "Default to using clear, concise paragraphs, each developing one main idea." Name the words and patterns to avoid if the output reads as machine-written.
 - Subagents: say when parallel work is welcome, and ask that messages between agents and final answers be easy to read.
 - Testing: "Do not write tests for reversible, low-impact changes that mirror the implementation." Repeat tests only when a change or a failure calls for it.
-- API notes: move function-calling requests to the Responses API. Reusable prompt objects are being retired.
+- API notes: move function-calling requests to the Responses API. Reusable prompt objects are being retired, and `v1/prompts` shuts down on November 30, 2026. Keep prompts in code instead.
 
 ## Choosing a model
 

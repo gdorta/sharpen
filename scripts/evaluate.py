@@ -5,12 +5,18 @@ For each draft in evals/cases.jsonl, the skill rewrites it twice: once with
 the guidance on the main branch and once with the proposed guidance. A judge
 scores both without knowing which is which.
 
+Both labs take part equally. Half the drafts are rewritten by a Claude model
+and half by an OpenAI model. Each pair is judged by the other lab's model, so
+neither lab grades its own work. With only one lab's key present, that lab
+does both jobs.
+
 The update passes when the new guidance does no harm:
-  - its average score is within 0.3 of the old one, or higher, and
+  - overall, and for each lab's half, its average score is within 0.3 of the
+    old one, or higher, and
   - it loses badly (3 points or more) on at most 2 drafts.
 
-This test catches an update that makes rewrites worse. It cannot tell whether
-a new fact is true. Truth rests on the sources being the vendors' own pages.
+This test catches an update that makes rewrites worse. It does not check
+facts. review.py does that.
 """
 import concurrent.futures
 import json
@@ -24,14 +30,18 @@ import sys
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from build_skill import render  # noqa: E402
-from llm import ask  # noqa: E402
+from llm import ask, available, other_lab  # noqa: E402
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CASES = ROOT / "evals" / "cases.jsonl"
 RUBRIC = ROOT / "evals" / "rubric.md"
 REPORT = ROOT / ".work" / "eval_report.md"
-REWRITE_MODEL = os.environ.get("SHARPEN_EVAL_MODEL", "claude-sonnet-5-5")
-JUDGE_MODEL = os.environ.get("SHARPEN_JUDGE_MODEL", "claude-opus-5-5")
+MODELS = {
+    "anthropic": {"writer": os.environ.get("SHARPEN_EVAL_MODEL", "claude-sonnet-5-5"),
+                  "judge": os.environ.get("SHARPEN_JUDGE_MODEL", "claude-opus-5-5")},
+    "openai": {"writer": os.environ.get("SHARPEN_EVAL_MODEL_OPENAI", "gpt-6.1-sol"),
+               "judge": os.environ.get("SHARPEN_JUDGE_MODEL_OPENAI", "gpt-6-astra")},
+}
 MEAN_SLACK = 0.3
 BAD_LOSS = 3
 MAX_BAD_LOSSES = 2
@@ -44,14 +54,14 @@ def old_guidance():
                           check=True, capture_output=True, text=True).stdout
 
 
-def rewrite(guidance, case):
+def rewrite(model, guidance, case):
     system = (render(guidance)
               + "\n\nNo web tools are available in this run. Use the guidance snapshot above.")
     target = f"for {case['target']} " if case.get("target") else ""
-    return ask(REWRITE_MODEL, system, f"sharpen {target}{case['draft']}", max_tokens=8000)
+    return ask(model, system, f"sharpen {target}{case['draft']}")
 
 
-def judge(case, old_text, new_text):
+def judge(model, case, old_text, new_text):
     flip = random.Random(case["id"]).random() < 0.5
     a, b = (new_text, old_text) if flip else (old_text, new_text)
     system = (RUBRIC.read_text()
@@ -59,40 +69,64 @@ def judge(case, old_text, new_text):
     user = (f"<draft>\n{case['draft']}\n</draft>\n"
             f"<target_model>{case.get('target') or 'not named'}</target_model>\n"
             f"<rewrite_a>\n{a}\n</rewrite_a>\n<rewrite_b>\n{b}\n</rewrite_b>")
-    reply = ask(JUDGE_MODEL, system, user, max_tokens=4000)
+    reply = ask(model, system, user)
     scores = json.loads(re.search(r"\{.*\}", reply, re.S).group(0))
     sa, sb = float(scores["a"]), float(scores["b"])
     old_score, new_score = (sb, sa) if flip else (sa, sb)
     return old_score, new_score, str(scores.get("note", ""))
 
 
-def run(case, old, new):
-    old_text, new_text = rewrite(old, case), rewrite(new, case)
-    return (case, *judge(case, old_text, new_text))
+def run(case, writer_lab, judge_lab, old, new):
+    writer, grader = MODELS[writer_lab]["writer"], MODELS[judge_lab]["judge"]
+    old_text, new_text = rewrite(writer, old, case), rewrite(writer, new, case)
+    old_score, new_score, note = judge(grader, case, old_text, new_text)
+    return {"id": case["id"], "lab": writer_lab, "writer": writer, "judge": grader,
+            "old": old_score, "new": new_score, "note": note}
 
 
 def main():
     cases = [json.loads(line) for line in CASES.read_text().splitlines() if line.strip()]
     old, new = old_guidance(), (ROOT / "guidance" / "guidance.md").read_text()
 
-    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
-        results = list(pool.map(lambda case: run(case, old, new), cases))
+    labs = [lab for lab in ("anthropic", "openai") if available(lab)]
+    if not labs:
+        print("no model key was found, so the test cannot run")
+        return 1
+    plan = []
+    for index, case in enumerate(cases):
+        writer_lab = labs[index % len(labs)]
+        judge_lab = other_lab(writer_lab) if len(labs) == 2 else writer_lab
+        plan.append((case, writer_lab, judge_lab))
 
-    old_mean = statistics.mean(r[1] for r in results)
-    new_mean = statistics.mean(r[2] for r in results)
-    bad = [r for r in results if r[2] <= r[1] - BAD_LOSS]
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+        results = list(pool.map(lambda item: run(*item, old, new), plan))
+
+    def means(rows):
+        return statistics.mean(r["old"] for r in rows), statistics.mean(r["new"] for r in rows)
+
+    old_mean, new_mean = means(results)
+    bad = [r for r in results if r["new"] <= r["old"] - BAD_LOSS]
     passed = new_mean >= old_mean - MEAN_SLACK and len(bad) <= MAX_BAD_LOSSES
 
     lines = [f"# Guidance test: {'passed' if passed else 'did not pass'}", "",
-             f"Average score with the current guidance: {old_mean:.2f}",
-             f"Average score with the proposed guidance: {new_mean:.2f}",
-             f"Drafts where the proposed guidance lost by {BAD_LOSS} or more: {len(bad)}", "",
-             "| Draft | Current | Proposed | Judge's note |", "|---|---|---|---|"]
-    for case, old_score, new_score, note in results:
-        lines.append(f"| {case['id']} | {old_score:g} | {new_score:g} | {note.replace('|', '/')} |")
+             f"All drafts: current {old_mean:.2f}, proposed {new_mean:.2f}"]
+    for lab in labs:
+        rows = [r for r in results if r["lab"] == lab]
+        lab_old, lab_new = means(rows)
+        if lab_new < lab_old - MEAN_SLACK:
+            passed = False
+        lines.append(f"Rewritten by {MODELS[lab]['writer']} ({len(rows)} drafts): "
+                     f"current {lab_old:.2f}, proposed {lab_new:.2f}")
+    lines[0] = f"# Guidance test: {'passed' if passed else 'did not pass'}"
+    lines += [f"Drafts where the proposed guidance lost by {BAD_LOSS} or more: {len(bad)}", "",
+              "| Draft | Rewritten by | Judged by | Current | Proposed | Judge's note |",
+              "|---|---|---|---|---|---|"]
+    for r in results:
+        lines.append(f"| {r['id']} | {r['writer']} | {r['judge']} | {r['old']:g} | {r['new']:g} "
+                     f"| {r['note'].replace('|', '/')} |")
     REPORT.parent.mkdir(exist_ok=True)
     REPORT.write_text("\n".join(lines) + "\n")
-    print("\n".join(lines[:6]))
+    print("\n".join(lines))
 
     if os.environ.get("GITHUB_OUTPUT"):
         with open(os.environ["GITHUB_OUTPUT"], "a") as out:

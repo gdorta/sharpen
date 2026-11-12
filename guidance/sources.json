@@ -1,11 +1,44 @@
 {
-  "allowed_domains": ["platform.claude.com", "developers.openai.com"],
+  "allowed_domains": [
+    "platform.claude.com",
+    "developers.openai.com"
+  ],
   "sources": [
-    {"id": "anthropic-best-practices", "vendor": "anthropic", "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md"},
-    {"id": "anthropic-models", "vendor": "anthropic", "url": "https://platform.claude.com/docs/en/models/overview.md"},
-    {"id": "openai-latest-model", "vendor": "openai", "url": "https://developers.openai.com/api/docs/guides/latest-model.md"},
-    {"id": "openai-models", "vendor": "openai", "url": "https://developers.openai.com/api/docs/models.md"},
-    {"id": "openai-prompting", "vendor": "openai", "url": "https://developers.openai.com/api/docs/guides/prompting.md"}
+    {
+      "id": "anthropic-best-practices",
+      "vendor": "anthropic",
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md"
+    },
+    {
+      "id": "anthropic-models",
+      "vendor": "anthropic",
+      "url": "https://platform.claude.com/docs/en/models/overview.md"
+    },
+    {
+      "id": "openai-latest-model",
+      "vendor": "openai",
+      "url": "https://developers.openai.com/api/docs/guides/latest-model.md"
+    },
+    {
+      "id": "openai-models",
+      "vendor": "openai",
+      "url": "https://developers.openai.com/api/docs/models.md"
+    },
+    {
+      "id": "openai-prompting",
+      "vendor": "openai",
+      "url": "https://developers.openai.com/api/docs/guides/prompting.md"
+    },
+    {
+      "id": "openai-prompt-engineering",
+      "vendor": "openai",
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering.md"
+    },
+    {
+      "id": "openai-model-selection",
+      "vendor": "openai",
+      "url": "https://developers.openai.com/api/docs/guides/model-selection.md"
+    }
   ],
   "discover": [
     {

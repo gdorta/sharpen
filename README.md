@@ -10,11 +10,23 @@ It is free for personal use. I hope it helps you.
 
 ## Install
 
+Sharpen is written in the open Agent Skills format, which Claude and OpenAI's tools both read.
+
+**In Claude**
+
 1. Download [sharpen.zip](sharpen.zip).
-2. In Claude, open Settings, find Skills, and upload the file. The menu name can differ a little between app versions.
+2. Open Settings, find Skills, and upload the file. The menu name can differ a little between app versions.
 3. Start a message with the word `sharpen`, followed by your draft.
 
-Sharpen is written in the open Agent Skills format, which Claude and OpenAI's tools both read. So far it has been tested in Claude. In ChatGPT and Codex, skills are installed as part of a plugin, and I have not packaged that yet.
+**In ChatGPT and Codex**
+
+OpenAI's tools install skills as part of a plugin, so this repo is also a plugin.
+
+1. In a terminal, run `codex plugin marketplace add gdorta/sharpen`.
+2. Restart the ChatGPT desktop app, open the Plugins Directory, choose Melange AI, and install Sharpen.
+3. Type `@`, select Sharpen, and add your draft.
+
+I have tested Sharpen in Claude. I have not yet been able to test the ChatGPT and Codex install, so if it does not work for you, please tell me and I will fix it.
 
 ## How to use it
 
@@ -36,10 +48,13 @@ The second part is the guidance, which is what Anthropic and OpenAI say works be
 Every Monday, a job in this repo keeps that file current:
 
 1. **It checks.** It reads the official pages listed in [guidance/sources.json](guidance/sources.json) and compares them with the week before. It finds pages for new models by itself.
-2. **It drafts.** If a page changed, a model drafts the update to the guidance file.
+2. **It drafts.** If a page changed, a Claude model drafts the update to the guidance file.
 3. **It checks for safety.** Fixed rules turn away a draft that is too long, that links anywhere other than the two official sites, or that contains anything that reads like a command.
-4. **It tests.** Twenty sample drafts in [evals/cases.jsonl](evals/cases.jsonl) are sharpened with the old guidance and with the new. A judge scores both without knowing which is which.
-5. **It publishes, or it waits for me.** If the new guidance does no harm, it goes out. If there is any doubt, it is held until I review it.
+4. **It asks for a second opinion.** An OpenAI model checks every changed line against the official pages. If it finds a line the pages do not support, the update waits for me.
+5. **It tests.** Twenty sample drafts in [evals/cases.jsonl](evals/cases.jsonl) are sharpened with the old guidance and with the new. A Claude model rewrites half of them and an OpenAI model rewrites the other half. Each pair is then scored by the other lab's model, without knowing which is which, so neither lab grades its own work.
+6. **It publishes, or it waits for me.** If the new guidance does no harm, it goes out. If there is any doubt, it is held until I review it.
+
+I wanted both labs treated the same way, in the guidance and in how the guidance is checked.
 
 Every change is written down in [guidance/CHANGELOG.md](guidance/CHANGELOG.md).
 
@@ -47,13 +62,15 @@ Every change is written down in [guidance/CHANGELOG.md](guidance/CHANGELOG.md).
 
 Sharpen costs you nothing beyond the Claude plan you already have.
 
-Keeping it current has a small cost, and I cover it. In a week when the guidance changes, the job makes about 60 model calls, which I expect to come to a few dollars. In a week when nothing changes, it costs nothing. GitHub hosts the repo and runs the weekly job for free.
+Keeping it current has a small cost, and I cover it. In a week when the guidance changes, the job makes about 60 model calls, split between the two labs, which I expect to come to a few dollars. In a week when nothing changes, it costs nothing. GitHub hosts the repo and runs the weekly job for free.
 
 ## What you can trust
 
 The guidance comes from two places only: platform.claude.com and developers.openai.com.
 
-I want to be clear about one limit. The weekly test can tell when an update makes Sharpen worse. It cannot tell whether a new fact is true. For that, Sharpen depends on those official pages being right.
+Two checks stand between a draft and you. A model from the other lab checks each changed line against the official pages, and the test compares results before and after.
+
+I want to be clear about the limit. Neither check is perfect, and if the official pages themselves are wrong, Sharpen will be wrong with them.
 
 Sharpen treats the guidance as advice on how to write prompts. If a guidance file ever asked it to do something else, it is told to set that file aside and let you know.
 
@@ -62,10 +79,10 @@ Sharpen treats the guidance as advice on how to write prompts. If a guidance fil
 You are welcome to run your own copy for personal use.
 
 1. Fork this repo. In `skill/SKILL.template.md` and `scripts/watch.py`, replace `gdorta/sharpen` with the name of your repo.
-2. Add a repository secret named `ANTHROPIC_API_KEY`. I suggest setting a monthly spending limit on that key.
+2. Add two repository secrets, `ANTHROPIC_API_KEY` and `OPENAI_API_KEY`. I suggest setting a monthly spending limit on each key. With only one of them, the job still runs, and that lab does all the work.
 3. Open the Actions tab, enable workflows, and run "Update guidance" once.
 
-To change the models the job uses, set `SHARPEN_UPDATE_MODEL`, `SHARPEN_EVAL_MODEL` or `SHARPEN_JUDGE_MODEL` in the workflow file.
+To change the models the job uses, set `SHARPEN_UPDATE_MODEL`, `SHARPEN_REVIEW_MODEL`, `SHARPEN_EVAL_MODEL`, `SHARPEN_JUDGE_MODEL`, `SHARPEN_EVAL_MODEL_OPENAI` or `SHARPEN_JUDGE_MODEL_OPENAI` in the workflow file.
 
 To try the job on your own computer, with no key and no cost:
 
@@ -82,11 +99,12 @@ guidance/sources.json     the official pages it watches
 guidance/state.json       what each page looked like at the last check
 guidance/CHANGELOG.md     every change, with its source
 skill/SKILL.template.md   the method
-skill/SKILL.md            the built skill: the method plus a copy of the guidance
-sharpen.zip               the file you install
+plugins/sharpen/          the built skill, packaged as a plugin
+sharpen.zip               the file you install in Claude
+.agents/plugins/          the listing that ChatGPT and Codex read
 evals/                    the twenty sample drafts and the scoring guide
-scripts/                  check, draft, safety checks, test, build
-.github/workflows/        the Monday job
+scripts/                  check, draft, safety checks, second opinion, test, build
+.github/workflows/        the Monday job, and a job that rebuilds the skill
 ```
 
 ## About

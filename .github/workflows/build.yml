@@ -1,0 +1,45 @@
+name: Build the skill
+
+# Rebuilds the installable skill whenever the method, the guidance or the
+# build script changes by hand. The weekly update job builds for itself.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skill/SKILL.template.md"
+      - "guidance/guidance.md"
+      - "scripts/build_skill.py"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-guidance
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Safety checks
+        run: python scripts/validate.py
+
+      - name: Build the skill
+        run: python scripts/build_skill.py
+
+      - name: Commit the built skill
+        run: |
+          git config user.name "sharpen-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add plugins sharpen.zip
+          git diff --cached --quiet || git commit -m "Rebuild the skill"
+          git push

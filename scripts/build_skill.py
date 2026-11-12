@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the installable skill from the template and the current guidance.
 
-Writes skill/SKILL.md and sharpen.zip. The skill carries a copy of the
+Writes the built skill into the plugin folder, and sharpen.zip. It carries a copy of the
 guidance so it still works when it cannot reach the web.
 """
 import pathlib
@@ -11,7 +11,7 @@ import zipfile
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "skill" / "SKILL.template.md"
 GUIDANCE = ROOT / "guidance" / "guidance.md"
-OUT = ROOT / "skill" / "SKILL.md"
+OUT = ROOT / "plugins" / "sharpen" / "skills" / "sharpen" / "SKILL.md"
 ZIP = ROOT / "sharpen.zip"
 MARKER = "{{GUIDANCE}}"
 

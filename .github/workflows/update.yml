@@ -69,7 +69,7 @@ jobs:
       - name: Ship the update
         if: steps.eval.outputs.passed == 'true'
         run: |
-          git add guidance skill sharpen.zip
+          git add guidance plugins sharpen.zip
           git commit -m "Update guidance from the official pages"
           git push
 
@@ -78,7 +78,7 @@ jobs:
         run: |
           branch="proposed/$(date +%F)"
           git checkout -b "$branch"
-          git add guidance skill sharpen.zip
+          git add guidance plugins sharpen.zip
           git commit -m "Proposed guidance update, held for review"
           git push --force origin "$branch"
           git checkout "${{ github.ref_name }}"

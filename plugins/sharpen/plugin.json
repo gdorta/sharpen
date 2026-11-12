@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "sharpen",
+  "version": "1.0.0",
+  "description": "Turns a rough prompt into a clear one, written for the Claude or OpenAI model it will run on. It keeps itself current with each vendor's official prompting guidance.",
+  "author": {
+    "name": "Gabe Dorta, Melange AI",
+    "url": "https://melange.ai"
+  }
+}

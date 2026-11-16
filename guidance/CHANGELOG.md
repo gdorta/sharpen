@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-11-16
+
+Pages that changed: openai-latest-model, openai-models, openai-prompt-engineering, anthropic-prompting-claude-fable-5-1, anthropic-prompting-claude-fable-5-2, anthropic-prompting-claude-haiku-5-5, anthropic-prompting-claude-opus-5-5
+
+- OpenAI models (Choosing a model): changed the OpenAI line so GPT-6 Astra is the starting point when unsure and GPT-6.1 Sol balances quality and cost. Source: openai-models ("If you're not sure where to start, use GPT-6 Astra") and openai-prompt-engineering ("gpt-6-astra offers a strong default").
+- OpenAI models (intro): added the `configuration_update` way to change reasoning effort mid-conversation while keeping the cache. Source: openai-latest-model.
+- GPT-6.1 Sol: added support for the Responses Multi-agent beta and reuse of earlier-turn reasoning. Source: openai-latest-model.
+- Fable 5.2: added that at high and above it thinks before almost every reply, so simple turns can use lower effort. Source: anthropic-prompting-claude-fable-5-2 (Calibrate effort).
+- Fable 5.2: added the suggested system prompt line for updates when a harness reminder is not possible, quoted exactly. Source: anthropic-prompting-claude-fable-5-2 (Update system prompt instructions).
+- Haiku 5.5: added knowledge work to the uses for high effort. Source: anthropic-prompting-claude-haiku-5-5 (Use effort to control thinking).
+- No section added for Fable 5.1. Its changed page describes an earlier model, and the Fable 5.2 page treats Fable 5.1 as a predecessor. No Claude models page was provided, so the four Claude sections stay. Source: anthropic-prompting-claude-fable-5-1, anthropic-prompting-claude-fable-5-2.
+- OpenAI lineup unchanged: Astra, 6.1 Sol, 6.1 Terra, Luna match the featured models. Source: openai-models.
+- Left out: a "Migrate with Codex" step asking readers to run a command and download a skill from github.com. This is an instruction to run commands and follow outside links, so it was not added. Source: openai-latest-model.
+- Not adopted: older sample prompts on the general prompt engineering page ("You are a world class web developer", "You must plan extensively"). They conflict with the model-specific guide and the file's general advice, and the file states the model's own page wins. Source: openai-prompt-engineering.
+- Opus 5.5 page re-checked. Existing quotes and advice still match, so no change. Source: anthropic-prompting-claude-opus-5-5.
+
 ## 2026-11-12
 
 Pages that changed: anthropic-best-practices, anthropic-models, openai-latest-model, openai-models, openai-prompting, openai-prompt-engineering, openai-model-selection, anthropic-prompting-claude-fable-5, anthropic-prompting-claude-fable-5-1, anthropic-prompting-claude-fable-5-2, anthropic-prompting-claude-haiku-5-5, anthropic-prompting-claude-opus-4-8, anthropic-prompting-claude-opus-5, anthropic-prompting-claude-opus-5-5, anthropic-prompting-claude-sonnet-5, anthropic-prompting-claude-sonnet-5-5

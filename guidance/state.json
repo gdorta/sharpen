@@ -1,6 +1,6 @@
 {
   "errors": {},
-  "last_checked": "2026-11-12",
+  "last_checked": "2026-11-16",
   "sources": {
     "anthropic-best-practices": {
       "last_changed": "2026-11-12",
@@ -21,20 +21,20 @@
       "vendor": "anthropic"
     },
     "anthropic-prompting-claude-fable-5-1": {
-      "last_changed": "2026-11-12",
-      "sha256": "87a5b5a64f0295af86899979b405ddda8b5de4b4b4eab0b15b44713c4bbf11b7",
+      "last_changed": "2026-11-16",
+      "sha256": "7a71c59ccbb0d6e18ef5a6dbebda6e6d1f7a996e6adba831e44b4b73d6af6755",
       "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-1.md",
       "vendor": "anthropic"
     },
     "anthropic-prompting-claude-fable-5-2": {
-      "last_changed": "2026-11-12",
-      "sha256": "dfaefe56544e69550f568767033e7a84af09f903023b1a30053cd4dd19304bc2",
+      "last_changed": "2026-11-16",
+      "sha256": "c20db12661c1cea8594aaf29a20dc2ad460437200f6ffbbbf8d3086b9c724c5d",
       "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2.md",
       "vendor": "anthropic"
     },
     "anthropic-prompting-claude-haiku-5-5": {
-      "last_changed": "2026-11-12",
-      "sha256": "a74acef06a682f0ed11009393ffc8989818cea1845b40a66d7083dc8b2390e29",
+      "last_changed": "2026-11-16",
+      "sha256": "f0e4031394a042f18ba37bc13db18d8ae506f5703ee0b58d2834613d4a2d4753",
       "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5.md",
       "vendor": "anthropic"
     },
@@ -51,8 +51,8 @@
       "vendor": "anthropic"
     },
     "anthropic-prompting-claude-opus-5-5": {
-      "last_changed": "2026-11-12",
-      "sha256": "ee7daccab2a39c9ae2b45d6a687412f110e8702b0174bdaeb51ef82a6788c683",
+      "last_changed": "2026-11-16",
+      "sha256": "6171e5c0ada4178cf93c40470f7371df9e7380e8b6514b9fb34e183c914c784a",
       "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-opus-5-5.md",
       "vendor": "anthropic"
     },
@@ -69,8 +69,8 @@
       "vendor": "anthropic"
     },
     "openai-latest-model": {
-      "last_changed": "2026-11-12",
-      "sha256": "1e4eecbb3c78e7855cde7438be334de64a8bdd81c4f0c4b7c73c4e47c0ccc3d9",
+      "last_changed": "2026-11-16",
+      "sha256": "4b7711aeff38e865e8fef318dc6cab583e3f4d8ddf2e83acdc0161e88634ef80",
       "url": "https://developers.openai.com/api/docs/guides/latest-model.md",
       "vendor": "openai"
     },
@@ -81,14 +81,14 @@
       "vendor": "openai"
     },
     "openai-models": {
-      "last_changed": "2026-11-12",
-      "sha256": "6a63c1fc8dcf180bb2f22baf55a7f5de581930a2d68422fcdb8d03e5760b2898",
+      "last_changed": "2026-11-16",
+      "sha256": "3dc24546aac5dde41d3889dc1d9209c014faed09458e33d0b745450715dccff4",
       "url": "https://developers.openai.com/api/docs/models.md",
       "vendor": "openai"
     },
     "openai-prompt-engineering": {
-      "last_changed": "2026-11-12",
-      "sha256": "f9c200d7a45e58b76ee6de89e2613a545520d65f1801d1b5558a32001b6b8c10",
+      "last_changed": "2026-11-16",
+      "sha256": "69ad5187349f049756e6648af6752c4f12dec70dbda1fdb0f4bd9ba45c74d7ca",
       "url": "https://developers.openai.com/api/docs/guides/prompt-engineering.md",
       "vendor": "openai"
     },

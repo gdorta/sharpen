@@ -1,6 +1,6 @@
 # Sharpen guidance
 
-Verified: 2026-11-12
+Verified: 2026-11-16
 
 Sources: the official prompting pages on platform.claude.com and developers.openai.com. Where a model's own page differs from the general advice, the model's page wins.
 
@@ -78,10 +78,11 @@ All four current models think by default. The effort setting (low, medium, high,
 For demanding reasoning and long-horizon agentic work.
 
 - Effort: default is high. Use high for hard coding, research, agentic work and long unattended runs. Medium for chat and interactive coding. Low for quick back-and-forth and well-specified tasks. Above high, gains are uneven, so use xhigh or max only where a gain has been measured.
+- At high and above it thinks before almost every reply, even a greeting. If simple requests start slowly or cost too much, use a lower effort for those turns.
 - Effort barely changes reply length. Ask in the prompt for the length and tone wanted.
 - Can stop early at low or medium effort. Add: "Please avoid stopping while you still owe work the user asked for."
 - Approvals: say exactly what is approved, for example "Yes, run the migration on the staging database." Broad approval rules make it hold routine work.
-- Can go quiet on long turns. Add the opening line and closing recap from Prompt types. In a harness, add a reminder such as "The user hasn't heard from you in a while: say in a few words what you're doing, then continue."
+- Can go quiet on long turns. Add the opening line and closing recap from Prompt types. In a harness, add a reminder such as "The user hasn't heard from you in a while: say in a few words what you're doing, then continue." Without a harness reminder, add: "Every few tool calls, give the user a one-line update on where things stand."
 - Can use too many subagents, and at xhigh or max it reviews its own work with subagents. State what a subagent costs and when it is worth it.
 - Code ownership: "You are the owner and long-term maintainer of this codebase, and its design is up to you." reduces duplicated code but adds much more output, tests and docs. Leave it out when minimal change is wanted.
 - Reports can be hard to follow for a cold reader. Ask for self-contained messages with the key points in the first sentences and no made-up terms.
@@ -117,7 +118,7 @@ The best combination of speed and intelligence.
 
 For high-volume, latency-sensitive tasks such as classification, extraction and routing.
 
-- Effort: default is medium, which suits most work. Low for chat and short tool tasks. High for longer agent tasks and where instruction following matters most.
+- Effort: default is medium, which suits most work. Low for chat and short tool tasks. High for knowledge work, longer agent tasks and where instruction following matters most.
 - Prompts written for Haiku 4.5 should work without changes.
 - May not search on time-sensitive questions. Give the date ("The current date is {{current_date}}.") and say its training data ends well before today. A blanket "search for any present-day question" rule makes it search too often.
 - In long agent prompts at low effort it can stop early. Add: "Keep working until everything the user asked for is done, and only stop to ask when you can't go on without the user or before a risky step."
@@ -130,6 +131,7 @@ For high-volume, latency-sensitive tasks such as classification, extraction and 
 Source: the "Using GPT-6" guide. Its advice was observed on GPT-6 Astra and is offered as a starting point for the whole GPT-6 family.
 
 - Reasoning effort: keep the level the prompt already runs at when moving models. Astra and 6.1 Sol do not accept "none", so use "low". Where an old request used "minimal", start with "low" and compare.
+- To change reasoning effort partway through a conversation and keep the cache, add a `configuration_update` input item and leave the request-level effort unchanged.
 - To pick a model and effort, compare candidates on the same inputs and keep the lightest setting that meets the quality bar.
 - API notes: move function-calling requests to the Responses API. Reusable prompt objects are being retired, and `v1/prompts` shuts down on November 30, 2026. Keep prompts in code instead.
 
@@ -151,6 +153,7 @@ Near-Astra performance for complex work at lower cost.
 
 - Effort: does not accept "none". Moving from GPT-6 Sol at "none", use "low". Medium for complex technical work and deliverables expected to be revised. Extra high for polished deliverables and decisions built from conflicting evidence.
 - Start from the Astra prompts above. Compare with Astra on the same task to weigh quality against cost.
+- Can delegate to subagents through the Responses Multi-agent beta, and can reuse reasoning from earlier turns.
 
 ### GPT-6.1 Terra
 
@@ -169,5 +172,5 @@ The most efficient model, for focused, high-volume tasks.
 ## Choosing a model
 
 - Claude: Opus 5.5 for most work. Fable 5.2 for the most demanding reasoning and long autonomous runs. Sonnet 5.5 for everyday and cost-sensitive work. Haiku 5.5 for high volume and speed.
-- OpenAI: GPT-6 Astra for the hardest work. GPT-6.1 Sol for most work at lower cost. GPT-6.1 Terra for speed, visuals and writing. GPT-6 Luna for high volume.
+- OpenAI: GPT-6 Astra when unsure where to start and for the hardest work. GPT-6.1 Sol to balance quality and cost. GPT-6.1 Terra for speed, visuals and writing. GPT-6 Luna for cost-sensitive, high-volume work.
 - When the person has not named a model, write for the one the prompt will most likely run on. If that is unknown, write for the model family they are using now.

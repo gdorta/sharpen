@@ -1,16 +1,16 @@
 {
   "errors": {},
-  "last_checked": "2026-11-16",
+  "last_checked": "2026-11-24",
   "sources": {
     "anthropic-best-practices": {
-      "last_changed": "2026-11-12",
-      "sha256": "1b45ffbca510d5ce394b6bb4e92f87d68473aef57fadb573006b18cd2bb2f556",
+      "last_changed": "2026-11-24",
+      "sha256": "e2eb2735d5364e88c262519476f64a5f5e5faaf57dc219b81b86c286a2b5a267",
       "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices.md",
       "vendor": "anthropic"
     },
     "anthropic-models": {
-      "last_changed": "2026-11-12",
-      "sha256": "d5d0ec8acea9cde0b2a218c7ab4224e6be514b8a04fc995c0e08d784ded3da8e",
+      "last_changed": "2026-11-24",
+      "sha256": "41f5ac40ac7890dc6983142312f31f0719430c3c242fc93a3fc5bc63e3816641",
       "url": "https://platform.claude.com/docs/en/models/overview.md",
       "vendor": "anthropic"
     },
@@ -33,8 +33,8 @@
       "vendor": "anthropic"
     },
     "anthropic-prompting-claude-haiku-5-5": {
-      "last_changed": "2026-11-16",
-      "sha256": "f0e4031394a042f18ba37bc13db18d8ae506f5703ee0b58d2834613d4a2d4753",
+      "last_changed": "2026-11-24",
+      "sha256": "19ef5baedd6303ce1383213cbcd8a26be74aa5b3097ae466cb0b0aa7b6766d5c",
       "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-haiku-5-5.md",
       "vendor": "anthropic"
     },
@@ -69,26 +69,26 @@
       "vendor": "anthropic"
     },
     "openai-latest-model": {
-      "last_changed": "2026-11-16",
-      "sha256": "4b7711aeff38e865e8fef318dc6cab583e3f4d8ddf2e83acdc0161e88634ef80",
+      "last_changed": "2026-11-24",
+      "sha256": "6cae4cd655aaab31cea56ded3d174545368b31c4603a171676777aff57e3d463",
       "url": "https://developers.openai.com/api/docs/guides/latest-model.md",
       "vendor": "openai"
     },
     "openai-model-selection": {
-      "last_changed": "2026-11-12",
-      "sha256": "3a2130b8d23ef1c59295078b090bcc3dd19c56578a5ddb8232830a65a4c74c5a",
+      "last_changed": "2026-11-24",
+      "sha256": "88391b8b984791c3e2dc4de33ed74295e323f9df03847a5a7aa93da6a295af65",
       "url": "https://developers.openai.com/api/docs/guides/model-selection.md",
       "vendor": "openai"
     },
     "openai-models": {
-      "last_changed": "2026-11-16",
-      "sha256": "3dc24546aac5dde41d3889dc1d9209c014faed09458e33d0b745450715dccff4",
+      "last_changed": "2026-11-24",
+      "sha256": "17ccdfe4098e838f457e2b6b104dd7ba934382220db78f7e11946d90b1af0687",
       "url": "https://developers.openai.com/api/docs/models.md",
       "vendor": "openai"
     },
     "openai-prompt-engineering": {
-      "last_changed": "2026-11-16",
-      "sha256": "69ad5187349f049756e6648af6752c4f12dec70dbda1fdb0f4bd9ba45c74d7ca",
+      "last_changed": "2026-11-24",
+      "sha256": "ff1fd5e2b1b19f6bb0578d9a7f985aa21ab069d8c909ea800047cdd85aa390bb",
       "url": "https://developers.openai.com/api/docs/guides/prompt-engineering.md",
       "vendor": "openai"
     },

@@ -1,5 +1,31 @@
 # Changelog
 
+## 2026-11-24
+
+Pages that changed: anthropic-best-practices, anthropic-models, openai-latest-model, openai-models, openai-prompt-engineering, openai-model-selection, anthropic-prompting-claude-haiku-5-5
+
+- Remove on sight: temperature, top_p and log probabilities are always unsupported on GPT-6.2 Astra and Sol (openai-latest-model).
+- Chat system prompt: extended the chatbot rules quote to the vendor's full wording (anthropic-prompting-claude-haiku-5-5).
+- Chat system prompt: added a pointer to the per-model medication dosing blocks, to be used exactly as written (anthropic-best-practices).
+- Agentic task: added guidance on the payments, account numbers and financial records block, including how to set up payment tools and which two sentences to drop for paying agents (anthropic-best-practices).
+- Haiku 5.5: effort now covers agentic coding at medium, simple high-volume requests at low, and testing Sonnet 5.5 if xhigh or max seems needed (anthropic-prompting-claude-haiku-5-5).
+- Haiku 5.5: Haiku 4.5 prompts work unchanged except those asking for reasoning in the reply, which can be refused (anthropic-prompting-claude-haiku-5-5).
+- Haiku 5.5: replaced the paraphrased search advice with the vendor's exact search text and said when to add it (anthropic-prompting-claude-haiku-5-5).
+- Haiku 5.5: extended the early-stop quote with the vendor's stop-and-report sentences (anthropic-prompting-claude-haiku-5-5).
+- Haiku 5.5: added lines on chatbot rules with high effort, empty replies at xhigh, adding system prompt text to new conversations only, and sending mid-task user messages as user turns (anthropic-prompting-claude-haiku-5-5).
+- Claude choosing line: Fable 5.2 also fits when Opus 5.5 at higher effort falls short (anthropic-models). The Claude lineup and default efforts are otherwise unchanged.
+- OpenAI intro: source is now the "Using GPT-6.2" guide, observed on GPT-6.2 Astra and Sol (openai-latest-model).
+- OpenAI intro: reasoning effort starts at medium for new integrations, and "none" or "minimal" becomes "low" (openai-latest-model).
+- OpenAI intro: added the GPT-6.2 notes on keeping earlier turns unchanged and putting reusable instructions in the first developer message (openai-latest-model, openai-prompt-engineering).
+- OpenAI lineup: removed the GPT-6 Astra and GPT-6.1 Sol sections because they left the featured lineup, and added GPT-6.2 Astra and GPT-6.2 Sol sections (openai-models).
+- GPT-6.2 Astra: effort starting points come from openai-model-selection. Writing, task completion, coding, frontend guidance and the quotes come from openai-latest-model.
+- GPT-6.2 Sol: description and effort starting points come from openai-models and openai-model-selection.
+- GPT-6.1 Terra: added medium effort for desktop apps, records and verifiable fixes (openai-model-selection).
+- OpenAI choosing line: rewritten for GPT-6.2 Sol as the start for most API workflows, GPT-6.2 Astra for demanding work and when unsure, Terra for visuals, and Luna for small repeatable tasks (openai-model-selection, openai-models).
+- Not adopted: the OpenAI "world class web developer" sample prompt (openai-prompt-engineering), because it conflicts with this file's no-filler role rule.
+- Not adopted: links to domains outside platform.claude.com and developers.openai.com that appeared in the pages, such as github.com, claude.com, support.claude.com and model-spec.openai.com.
+- No text in the pages read as instructions to the maintainer, and none asked the reader to run commands or share information.
+
 ## 2026-11-16
 
 Pages that changed: openai-latest-model, openai-models, openai-prompt-engineering, anthropic-prompting-claude-fable-5-1, anthropic-prompting-claude-fable-5-2, anthropic-prompting-claude-haiku-5-5, anthropic-prompting-claude-opus-5-5
